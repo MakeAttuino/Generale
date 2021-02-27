@@ -1,6 +1,6 @@
 #include <LiquidCrystal_I2C.h>
 #define righe 2
-#define colonne 20
+#define colonne 16
 LiquidCrystal_I2C lcd(0x3f,colonne,righe);
 String messaggio = "Era piu' facile di quel che pensavo :)";
 unsigned long t, dt;
