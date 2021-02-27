@@ -1,0 +1,43 @@
+#include <LiquidCrystal_I2C.h>
+#define righe 2
+#define colonne 20
+LiquidCrystal_I2C lcd(0x3f,colonne,righe);
+String messaggio = "Era piu' facile di quel che pensavo :)";
+unsigned long t, dt;
+bool flag_time = false;
+byte pos = 0, lung_stringa;
+int tempo_refresh = 500;
+
+void setup() {
+  // Init LCD
+  lcd.begin();
+  lcd.setCursor(0, 0);
+  lcd.print("Scritta ruotante");
+  t = millis();
+  lung_stringa = messaggio.length();
+  for (byte i=0; i < colonne; i++) {
+    messaggio = " " + messaggio;
+  } 
+  messaggio = messaggio + " ";
+}
+
+void loop() {
+  dt = millis() - t;
+  if (dt >= tempo_refresh) {
+    t = millis();
+    flag_time = true;
+    scritta_scorrevole(messaggio);
+  }
+}
+
+// gestisce la scritta scorrevole durante erogazione
+void scritta_scorrevole(String scorrevole){
+  if(flag_time){
+    
+    flag_time = false;
+    lcd.setCursor(0, 1);
+    lcd.print(scorrevole.substring(pos, pos + colonne));
+    pos+=1;
+    if(pos > lung_stringa)pos = 0;
+  }
+}
